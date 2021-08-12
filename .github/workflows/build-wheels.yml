@@ -100,7 +100,11 @@ jobs:
           echo "MB_ML_VER=2014" >> $GITHUB_ENV
         fi
         echo "TEST_DEPENDS=$(echo $NP_TEST_DEP $SP_TEST_DEP $PANDAS_DEP nose pytest pytest-xdist statsmodels patsy property_cached mypy_extensions pytest jupyter jupyter_client nbformat nbconvert==5.6.1 pytest-xdist pyhdfe)" >> $GITHUB_ENV;
-        echo "DOCKER_TEST_IMAGE=$(echo multibuild/xenial_${{ matrix.PLAT}})" >> $GITHUB_ENV;
+        if [ "aarch64" == "${{ matrix.platform }}" ]; then
+          echo "DOCKER_TEST_IMAGE=$(echo multibuild/xenial_arm64v8)" >> $GITHUB_ENV
+        else
+          echo "DOCKER_TEST_IMAGE=$(echo multibuild/xenial_${{ matrix.PLAT}})" >> $GITHUB_ENV;
+        fi
     - name: Print some Environment variable
       run: |
         echo "ANACONDA_ORG: ${ANACONDA_ORG}"
